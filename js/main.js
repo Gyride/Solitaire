@@ -14,7 +14,7 @@ $(document).ready(function(){
     }
 
     Deck.prototype.topDeck = function() {
-        const TOP_CARD = this.order.length -1;
+        const TOP_CARD = this.order.length - 1;
         return this.order[TOP_CARD];
     }
 
@@ -24,6 +24,18 @@ $(document).ready(function(){
 
     Deck.prototype.addCard = function(card) {
         this.order.push(card);
+    }
+
+    Deck.prototype.stack = function(i) {
+        return this.order.slice(i-1);
+    }
+
+    Deck.prototype.removeStack = function(i) {
+        this.order.splice(i-1, this.order.length-1);
+    }
+
+    Deck.prototype.addStack = function(stack) {
+        this.order = this.order.concat(stack);
     }
 
     $.fn.reset = function() {
@@ -86,21 +98,32 @@ $(document).ready(function(){
                     $('<div class="card"></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
                                                     .draggable({revert: function(is_valid_drop) {
                                                                     if (!is_valid_drop) {
-                                                                        $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                        let c = 10 * $(this).index();
+                                                                        if ( $(this).is(":last-child") ) {
+                                                                            $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                        } else {
+                                                                            
+                                                                        }
                                                                         $(this).css("left", "0px");
-                                                                        $(this).css("top", "0px");                                                                
+                                                                        $(this).css("top", c + "px");
+                                                                        $(this).css('z-index', 'auto');
                                                                     }
                                                                 },
                                                                 start: function() {
-                                                                    $(this).parent().data('stack').removeCard();
-                                                                    $('div.chatMessenger').not(this).css('z-index', '100');
+                                                                    if ( $(this).is(":last-child") ) {
+                                                                        $(this).parent().data('stack').removeCard();
+                                                                    } else {
+        
+                                                                    }
                                                                     $(this).css('z-index', '1000');
                                                                 },
                                                                 stop: function() {
-                                                                    $(this).css('z-index', '100');
+                                                                    $(this).css('z-index', 'auto');
                                                                 }
                     });
 
+                    let c = 10 * ( $("#tableau .pile:nth-child(" + i + ") .card").last().index() );
+                    $("#tableau .pile:nth-child(" + i + ") .card").last().css("top", c + "px");
                     $("#tableau .pile:nth-child(" + i + ") .card").last().data('card', card);
                     $("#tableau .pile:nth-child(" + i + ") .card").last().css("background-image", "url(" + card.img + ")");
                 } else {
@@ -110,20 +133,32 @@ $(document).ready(function(){
                     $('<div class="card"></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
                                                     .draggable({revert: function(is_valid_drop) {
                                                                     if (!is_valid_drop) {
-                                                                        $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                        let c = 10 * $(this).index();
+                                                                        if ( $(this).is(":last-child") ) {
+                                                                            $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                        } else {
+                                                                            
+                                                                        }
                                                                         $(this).css("left", "0px");
-                                                                        $(this).css("top", "0px");                                                                
+                                                                        $(this).css("top", c + "px");
+                                                                        $(this).css('z-index', 'auto');
                                                                     }
                                                                 },
                                                                 start: function() {
-                                                                    $(this).parent().data('stack').removeCard();
-                                                                    $('div.chatMessenger').not(this).css('z-index', '100');
+                                                                    if ( $(this).is(":last-child") ) {
+                                                                        $(this).parent().data('stack').removeCard();
+                                                                    } else {
+                                                                        
+                                                                    }
                                                                     $(this).css('z-index', '1000');
                                                                 },
                                                                 stop: function() {
-                                                                    $(this).css('z-index', '100');
+                                                                    $(this).css('z-index', 'auto');
                                                                 }
                     });
+
+                    let c = 10 * ( $("#tableau .pile:nth-child(" + i + ") .card").last().index() );
+                    $("#tableau .pile:nth-child(" + i + ") .card").last().css("top", c + "px");
                     $("#tableau .pile:nth-child(" + i + ") .card").last().data('card', card);
                     $("#tableau .pile:nth-child(" + i + ") .card").last().css("background-image", "url(img/faceDown.jpg)");
                 }
@@ -181,7 +216,9 @@ $(document).ready(function(){
             // Move draggable into droppable
             draggable.appendTo(droppable);
             draggable.css("position", "absolute");
-            draggable.css("top", "0px");
+
+            let c = 10 * (draggable.index());
+            draggable.css("top", c + "px");
             draggable.css("left", "0px");
             droppable.data('stack').addCard( draggable.data('card') );
          }
@@ -237,18 +274,27 @@ $(document).ready(function(){
             $('<div class="card"></div>').appendTo('#draw')
                                             .draggable({revert: function(is_valid_drop) {
                                                             if (!is_valid_drop) {
-                                                                $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                let c = $(this).index();
+                                                                if ( $(this).is(":last-child") ) {
+                                                                    $(this).parent().data('stack').addCard( $(this).data('card') );
+                                                                } else {
+
+                                                                }
                                                                 $(this).css("left", "0px");
-                                                                $(this).css("top", "0px");                                                                
+                                                                $(this).css("top", c + "px");
+                                                                $(this).css('z-index', 'auto');
                                                             }
                                                         },
                                                         start: function() {
-                                                            $(this).parent().data('stack').removeCard();
-                                                            $('div.chatMessenger').not(this).css('z-index', '100');
+                                                            if ( $(this).is(":last-child") ) {
+                                                                $(this).parent().data('stack').removeCard();
+                                                            } else {
+
+                                                            }
                                                             $(this).css('z-index', '1000');
                                                         },
                                                         stop: function() {
-                                                            $(this).css('z-index', '100');
+                                                            $(this).css('z-index', 'auto');
                                                         }
             });
             let drawStack = $("#draw").data('stack');
@@ -256,7 +302,6 @@ $(document).ready(function(){
     
             $("#draw .card").last().data('card', card);
             $("#draw .card").last().css("background-image", "url(" + card.img + ")");
-            $("#draw .card").last().css("z-index", "100");
             if ( deckStack.order.length < 1 ) {
                 $(this).css("background-image", "url(img/reset.png)");
                 $(this).css("background-size", "contain");
