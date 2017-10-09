@@ -109,11 +109,18 @@ $(document).ready(function(){
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
 
-                                                                        $(this).parent("#tableau .pile").children().not("#container").each( function(i){
-                                                                            let c = 10 * i;
-                                                                            $(this).css("top", c + "px")
-                                                                            $(this).css("left", "0px")
-                                                                        });
+                                                                        if ( $(this).parents("#tableau").length ) {
+                                                                            $(this).parent().children().not("#container").each( function(i){
+                                                                                let c = 10 * i;
+                                                                                $(this).css("top", c + "px")
+                                                                                $(this).css("left", "0px")
+                                                                            });
+                                                                        } else {
+                                                                            $(this).parent().children().not("#container").each( function(i){
+                                                                                $(this).css("top", "0px")
+                                                                                $(this).css("left", "0px")
+                                                                            });
+                                                                        }
                                                                     }
                                                                 },
                                                                 start: function() {
@@ -174,11 +181,18 @@ $(document).ready(function(){
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
 
-                                                                        $(this).parent("#tableau .pile").children().not("#container").each( function(i){
-                                                                            let c = 10 * i;
-                                                                            $(this).css("top", c + "px")
-                                                                            $(this).css("left", "0px")
-                                                                        });
+                                                                        if ( $(this).parents("#tableau").length ) {
+                                                                            $(this).parent().children().not("#container").each( function(i){
+                                                                                let c = 10 * i;
+                                                                                $(this).css("top", c + "px")
+                                                                                $(this).css("left", "0px")
+                                                                            });
+                                                                        } else {
+                                                                            $(this).parent().children().not("#container").each( function(i){
+                                                                                $(this).css("top", "0px")
+                                                                                $(this).css("left", "0px")
+                                                                            });
+                                                                        }
                                                                     }
                                                                 },
                                                                 start: function() {
@@ -351,11 +365,18 @@ $(document).ready(function(){
                                                                     $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                 }
 
-                                                                $(this).parent("#tableau .pile").children().not("#container").each( function(i){
-                                                                    let c = 10 * i;
-                                                                    $(this).css("top", c + "px")
-                                                                    $(this).css("left", "0px")
-                                                                });
+                                                                if ( $(this).parents("#tableau").length ) {
+                                                                    $(this).parent().children().not("#container").each( function(i){
+                                                                        let c = 10 * i;
+                                                                        $(this).css("top", c + "px")
+                                                                        $(this).css("left", "0px")
+                                                                    });
+                                                                } else {
+                                                                    $(this).parent().children().not("#container").each( function(i){
+                                                                        $(this).css("top", "0px")
+                                                                        $(this).css("left", "0px")
+                                                                    });
+                                                                }
                                                             }
                                                         },
                                                         start: function() {
