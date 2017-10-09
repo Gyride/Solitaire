@@ -99,7 +99,7 @@ $(document).ready(function(){
                     stack.removeCard();
                     
                     $("#tableau .pile:nth-child(" + i + ")").data('stack').addCard(card);
-                    $('<div class="card"></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
+                    $('<div class="card" id="' + card.suit + card.val + '""></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
                                                     .draggable({revert: function(is_valid_drop) {
                                                                     if (!is_valid_drop) {
                                                                         if ( $(this).is(":last-child") ) {
@@ -132,9 +132,9 @@ $(document).ready(function(){
                                                                         $(this).css('z-index', 'auto');
                                                                     } else {
                                                                         $(this).nextAll().each( function() {
-                                                                            $(this).remove();
+                                                                            $(this).css("display", "block");
                                                                         });
-                                                                        $(this).remove();
+                                                                        $(this).css("display", "block");
                                                                     }
                                                                 },
                                                                 helper: function () {
@@ -167,7 +167,7 @@ $(document).ready(function(){
                     stack.removeCard();
                     
                     $("#tableau .pile:nth-child(" + i + ")").data('stack').addCard(card);
-                    $('<div class="card"></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
+                    $('<div class="card" id="' + card.suit + card.val + '"></div>').appendTo('#tableau .pile:nth-child(' + i + ')')
                                                     .draggable({revert: function(is_valid_drop) {
                                                                     if (!is_valid_drop) {
                                                                         if ( $(this).is(":last-child") ) {
@@ -200,19 +200,9 @@ $(document).ready(function(){
                                                                         $(this).css('z-index', 'auto');
                                                                     } else {
                                                                         $(this).nextAll().each( function() {
-                                                                            $(this).remove();
-                                                                        });
-                                                                        $(this).remove();
-                                                                    }
-                                                                },
-                                                                stop: function() {
-                                                                    if ( $(this).is(":last-child") ) {
-                                                                        $(this).css('z-index', 'auto');
-                                                                    } else {
-                                                                        $(this).css("display", "block");
-                                                                        $(this).nextAll().each( function() {
                                                                             $(this).css("display", "block");
                                                                         });
+                                                                        $(this).css("display", "block");
                                                                     }
                                                                 },
                                                                 helper: function () {
@@ -253,13 +243,7 @@ $(document).ready(function(){
     $("#tableau .pile").droppable({
         accept: function(d) {
             let topCard = $(this).data('stack').topDeck();
-            let card;
-            
-            if ( d.data('card') ) {
-                card = d.data('card');
-            } else {
-                card = d.data('stack').order[0];
-            }
+            let card = d.data('card');
 
             if ( topCard ) {
                 if (topCard.face == "down") {
@@ -295,16 +279,18 @@ $(document).ready(function(){
         },
         drop: function( event, ui ) {
             let droppable = $(this);
-            let draggable = ui.helper;
+            let draggable = ui.draggable;
 
-            if ( draggable.children().length > 1 ) {
-                draggable.children().each( function() {
+            if ( !draggable.is(":last-child") ) {
+                draggable.parent().children(":gt(" + ( draggable.index() - 1 ) + ")").each( function(){
                     $(this).appendTo(droppable);
-        
+
                     let c = 10 * ($(this).index());
                     $(this).css("top", c + "px");
                     $(this).css("left", "0px");
-                    droppable.data('stack').addCard( $(this).data('card') );
+                    if ( $(this).data('card') != undefined ) {
+                        droppable.data('stack').addCard( $(this).data('card') );
+                    }
                 });
             } else {
                 draggable.appendTo(droppable);
@@ -315,7 +301,6 @@ $(document).ready(function(){
                 droppable.data('stack').addCard( draggable.data('card') );
             }
          }
-     
     });
 
     $("#foundation .pile").droppable({
@@ -354,7 +339,6 @@ $(document).ready(function(){
             draggable.css("left", "0px");
             droppable.data('stack').addCard( draggable.data('card') );
          }
-     
     });
 
     $("#deck").on("click", function(){
@@ -365,7 +349,7 @@ $(document).ready(function(){
             card.face = "up";
             deckStack.removeCard();
     
-            $('<div class="card"></div>').appendTo('#draw')
+            $('<div class="card" id="' + card.suit + card.val + '"></div>').appendTo('#draw')
                                             .draggable({revert: function(is_valid_drop) {
                                                             if (!is_valid_drop) {
                                                                 if ( $(this).is(":last-child") ) {
@@ -398,9 +382,9 @@ $(document).ready(function(){
                                                                 $(this).css('z-index', 'auto');
                                                             } else {
                                                                 $(this).nextAll().each( function() {
-                                                                    $(this).remove();
+                                                                    $(this).css("display", "block");
                                                                 });
-                                                                $(this).remove();
+                                                                $(this).css("display", "block");
                                                             }
                                                         },
                                                         helper: function () {
