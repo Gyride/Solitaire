@@ -109,7 +109,7 @@ $(document).ready(function(){
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
 
-                                                                        $(this).parent().children().not("#container").each( function(i){
+                                                                        $(this).parent("#tableau .pile").children().not("#container").each( function(i){
                                                                             let c = 10 * i;
                                                                             $(this).css("top", c + "px")
                                                                             $(this).css("left", "0px")
@@ -174,7 +174,7 @@ $(document).ready(function(){
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
 
-                                                                        $(this).parent().children().not("#container").each( function(i){
+                                                                        $(this).parent("#tableau .pile").children().not("#container").each( function(i){
                                                                             let c = 10 * i;
                                                                             $(this).css("top", c + "px")
                                                                             $(this).css("left", "0px")
@@ -351,7 +351,7 @@ $(document).ready(function(){
                                                                     $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                 }
 
-                                                                $(this).parent().children().not("#container").each( function(i){
+                                                                $(this).parent("#tableau .pile").children().not("#container").each( function(i){
                                                                     let c = 10 * i;
                                                                     $(this).css("top", c + "px")
                                                                     $(this).css("left", "0px")
