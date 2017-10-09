@@ -104,19 +104,16 @@ $(document).ready(function(){
                                                                     if (!is_valid_drop) {
                                                                         if ( $(this).is(":last-child") ) {
                                                                             $(this).parent().data('stack').addCard( $(this).data('card') );
-                                                                            
-                                                                            $(this).css("left", "0px");
-                                                                            if ( $(this).parents("#tableau").length ) {
-                                                                                let c = 10 * $(this).index();
-                                                                                $(this).css("top", c + "px");
-                                                                            } else {
-                                                                                $(this).css("top", "0px");
-                                                                            }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
-                                                                            console.log( $(this).parent().data('stack').addStack( stack ) );
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
+
+                                                                        $(this).parent().children().not("#container").each( function(i){
+                                                                            let c = 10 * i;
+                                                                            $(this).css("top", c + "px")
+                                                                            $(this).css("left", "0px")
+                                                                        });
                                                                     }
                                                                 },
                                                                 start: function() {
@@ -172,19 +169,16 @@ $(document).ready(function(){
                                                                     if (!is_valid_drop) {
                                                                         if ( $(this).is(":last-child") ) {
                                                                             $(this).parent().data('stack').addCard( $(this).data('card') );
-                                                                            
-                                                                            $(this).css("left", "0px");
-                                                                            if ( $(this).parents("#tableau").length ) {
-                                                                                let c = 10 * $(this).index();
-                                                                                $(this).css("top", c + "px");
-                                                                            } else {
-                                                                                $(this).css("top", "0px");
-                                                                            }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
-                                                                            console.log($(this).parent().data('stack').addStack( stack ));
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
+
+                                                                        $(this).parent().children().not("#container").each( function(i){
+                                                                            let c = 10 * i;
+                                                                            $(this).css("top", c + "px")
+                                                                            $(this).css("left", "0px")
+                                                                        });
                                                                     }
                                                                 },
                                                                 start: function() {
@@ -280,28 +274,24 @@ $(document).ready(function(){
         drop: function( event, ui ) {
             let droppable = $(this);
             let draggable = ui.draggable;
-
+            let card;
             if ( !draggable.is(":last-child") ) {
-                let c = 10 * (droppable.children().length - 1);
-
-                draggable.parent().children(":gt(" + ( draggable.index() - 1 ) + ")").each( function(){
-                    $(this).appendTo(droppable);
-
-                    c = c + 10;
-                    $(this).css("top", c + "px");
-                    $(this).css("left", "0px");
-                    if ( $(this).data('card') != undefined ) {
-                        droppable.data('stack').addCard( $(this).data('card') );
-                    }
+                draggable.parent().children(":gt(" + ( draggable.index() - 1 ) + ")").not("#container").each( function(){
+                        card = $(this).data('card');
+                        $(this).appendTo(droppable);
+                        droppable.data('stack').addCard( card );
                 });
             } else {
+                card = $(this).data('card');
                 draggable.appendTo(droppable);
-    
-                let c = 10 * (draggable.index());
-                draggable.css("top", c + "px");
-                draggable.css("left", "0px");
                 droppable.data('stack').addCard( draggable.data('card') );
             }
+
+            droppable.children().not("#container").each( function(i){
+                let c = 10 * i;
+                $(this).css("top", c + "px");
+                $(this).css("left", "0px");
+            });
          }
     });
 
@@ -335,7 +325,7 @@ $(document).ready(function(){
         drop: function( event, ui ) {
             let droppable = $(this);
             let draggable = ui.draggable;
-            // Move draggable into droppable
+
             draggable.appendTo(droppable);
             draggable.css("top", "0px");
             draggable.css("left", "0px");
@@ -356,19 +346,16 @@ $(document).ready(function(){
                                                             if (!is_valid_drop) {
                                                                 if ( $(this).is(":last-child") ) {
                                                                     $(this).parent().data('stack').addCard( $(this).data('card') );
-                                                                    
-                                                                    $(this).css("left", "0px");
-                                                                    if ( $(this).parents("#tableau").length ) {
-                                                                        let c = 10 * $(this).index();
-                                                                        $(this).css("top", c + "px");
-                                                                    } else {
-                                                                        $(this).css("top", "0px");
-                                                                    }
                                                                     $(this).css('z-index', 'auto');
                                                                 } else {
-                                                                    console.log( $(this).parent().data('stack').addStack( stack ) );
                                                                     $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                 }
+
+                                                                $(this).parent().children().not("#container").each( function(i){
+                                                                    let c = 10 * i;
+                                                                    $(this).css("top", c + "px")
+                                                                    $(this).css("left", "0px")
+                                                                });
                                                             }
                                                         },
                                                         start: function() {
@@ -401,7 +388,7 @@ $(document).ready(function(){
                                                                 })
                                                                 div.prepend($(this).clone(true).css("z-index", "1000").css("top", "0px"));
                                                                 $(this).css("display", "none");
-                                                                div.css("z-index", "1000").css("left", event.pageX + "px").css("top", event.pageY + "px");
+                                                                div.css("z-index", "1000");
                                                                 return div;
                                                             }
                                                         },
@@ -426,6 +413,7 @@ $(document).ready(function(){
 
             if ( drawStack.order.length == 0) {
                 $(this).css("background-image", "none");
+                $(this).css("background-color", "rgba(255,255,255, .2)");
             } else {
                 $("#draw").data('stack', new Deck());
                 $("#draw").empty();
