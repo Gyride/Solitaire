@@ -32,11 +32,11 @@ $(document).ready(function(){
     }
 
     Deck.prototype.removeStack = function(i) {
-        this.order.splice(i, this.order.length-1);
+        return this.order.splice(i , this.order.length - i);
     }
 
     Deck.prototype.addStack = function(stack) {
-        this.order = this.order.concat(stack);
+        return this.order.concat(stack);
     }
 
     $.fn.reset = function() {
@@ -114,7 +114,7 @@ $(document).ready(function(){
                                                                             }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
-                                                                            $(this).parent().data('stack').addStack( stack );
+                                                                            $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
                                                                     }
                                                                 },
@@ -123,8 +123,7 @@ $(document).ready(function(){
                                                                         $(this).parent().data('stack').removeCard();
                                                                         $(this).css('z-index', '1000');
                                                                     } else {
-                                                                        stack = $(this).parent().data('stack').stack( $(this).index() );
-                                                                        $(this).parent().data('stack').removeStack( $(this).index() );
+                                                                        stack = $(this).parent().data('stack').removeStack( $(this).index() );
                                                                     }
                                                                 },
                                                                 stop: function() {
@@ -182,7 +181,7 @@ $(document).ready(function(){
                                                                             }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
-                                                                            $(this).parent().data('stack').addStack( stack );
+                                                                            $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
                                                                     }
                                                                 },
@@ -191,8 +190,7 @@ $(document).ready(function(){
                                                                         $(this).parent().data('stack').removeCard();
                                                                         $(this).css('z-index', '1000');
                                                                     } else {
-                                                                        stack = $(this).parent().data('stack').stack( $(this).index() );
-                                                                        $(this).parent().data('stack').removeStack( $(this).index() );
+                                                                        stack = $(this).parent().data('stack').removeStack( $(this).index() );
                                                                     }
                                                                 },
                                                                 stop: function() {
@@ -282,10 +280,12 @@ $(document).ready(function(){
             let draggable = ui.draggable;
 
             if ( !draggable.is(":last-child") ) {
+                let c = 10 * (droppable.children().length - 1);
+
                 draggable.parent().children(":gt(" + ( draggable.index() - 1 ) + ")").each( function(){
                     $(this).appendTo(droppable);
 
-                    let c = 10 * ($(this).index());
+                    c = c + 10;
                     $(this).css("top", c + "px");
                     $(this).css("left", "0px");
                     if ( $(this).data('card') != undefined ) {
@@ -364,7 +364,7 @@ $(document).ready(function(){
                                                                     }
                                                                     $(this).css('z-index', 'auto');
                                                                 } else {
-                                                                    $(this).parent().data('stack').addStack( stack );
+                                                                    $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                 }
                                                             }
                                                         },
@@ -373,8 +373,7 @@ $(document).ready(function(){
                                                                 $(this).parent().data('stack').removeCard();
                                                                 $(this).css('z-index', '1000');
                                                             } else {
-                                                                stack = $(this).parent().data('stack').stack( $(this).index() );
-                                                                $(this).parent().data('stack').removeStack( $(this).index() );
+                                                                stack = $(this).parent().data('stack').removeStack( $(this).index() );
                                                             }
                                                         },
                                                         stop: function() {
