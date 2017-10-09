@@ -20,11 +20,11 @@ $(document).ready(function(){
     }
 
     Deck.prototype.removeCard = function() {
-        this.order.splice(-1, 1);
+        return this.order.splice(-1, 1);
     }
 
     Deck.prototype.addCard = function(card) {
-        this.order.push(card);
+        return this.order.push(card);
     }
 
     Deck.prototype.stack = function(i) {
@@ -114,6 +114,7 @@ $(document).ready(function(){
                                                                             }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
+                                                                            console.log( $(this).parent().data('stack').addStack( stack ) );
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
                                                                     }
@@ -181,6 +182,7 @@ $(document).ready(function(){
                                                                             }
                                                                             $(this).css('z-index', 'auto');
                                                                         } else {
+                                                                            console.log($(this).parent().data('stack').addStack( stack ));
                                                                             $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                         }
                                                                     }
@@ -364,6 +366,7 @@ $(document).ready(function(){
                                                                     }
                                                                     $(this).css('z-index', 'auto');
                                                                 } else {
+                                                                    console.log( $(this).parent().data('stack').addStack( stack ) );
                                                                     $(this).parent().data('stack').order = $(this).parent().data('stack').addStack( stack );
                                                                 }
                                                             }
@@ -420,13 +423,18 @@ $(document).ready(function(){
             }
         } else {
             let drawStack = $("#draw").data('stack');
-            $("#draw").data('stack', new Deck());
-            $("#draw").empty();
 
-            drawStack.order.reverse();
-            $(this).data('stack', drawStack);
-            $(this).css("background-image", "url(img/faceDown.jpg)");
-            $(this).css("background-size", "cover");
+            if ( drawStack.order.length == 0) {
+                $(this).css("background-image", "none");
+            } else {
+                $("#draw").data('stack', new Deck());
+                $("#draw").empty();
+    
+                drawStack.order.reverse();
+                $(this).data('stack', drawStack);
+                $(this).css("background-image", "url(img/faceDown.jpg)");
+                $(this).css("background-size", "cover");
+            }
         }
     });
 
