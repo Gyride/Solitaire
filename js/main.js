@@ -296,9 +296,9 @@ $(document).ready(function(){
                         droppable.data('stack').addCard( card );
                 });
             } else {
-                card = $(this).data('card');
-                draggable.appendTo(droppable);
-                droppable.data('stack').addCard( draggable.data('card') );
+                card = draggable.data('card');
+                draggable.appendTo( droppable );
+                droppable.data('stack').addCard( card );
             }
 
             droppable.children().not("#container").each( function(i){
